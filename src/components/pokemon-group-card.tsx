@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import ChipType from "@/components/ChipType";
+import ChipType from "@/components/chip-type";
 
-import type { BaseResponse } from "@/types/base-types";
-import type { PokemonList } from "@/types/pokemon-types";
+import type { BaseResponse } from "@/types/base";
+import type { PokemonList } from "@/types/pokemon";
 
 export default function PokemonGroupCard({
   pokemonError,
@@ -28,7 +28,7 @@ export default function PokemonGroupCard({
                   height={90}
                   className="transition-transform duration-300 ease-in-out hover:scale-125"
                 />
-                <div className="font-bold text-xl">{pokemon.name}</div>
+                <div className="font-bold text-xl capitalize">{pokemon.name}</div>
                 <div className="flex justify-center items-center gap-2">
                   {pokemon.types.map((type, i_type) => (
                     <ChipType key={i_type} type={type.type.name}>
