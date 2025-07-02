@@ -1,32 +1,31 @@
-import ChipType from "@/components/ChipType";
-import Image from "next/image";
+import { getPokemonList } from "@/lib/api/pokemon";
 
-const BASE_IMAGE =
-  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
+import type { BaseResponse } from "@/types/base-types";
+import type { PokemonList } from "@/types/pokemon-types";
+import PokemonGroupCard from "@/components/PokemonGroupCard";
 
-export default function Home() {
+export default async function Home() {
+  let pokemonList: BaseResponse<PokemonList[]> | null = null;
+  let pokemonError: string | null = null;
+
+  try {
+    pokemonList = await getPokemonList();
+  } catch (err) {
+    if (err instanceof Error) {
+      pokemonError = err.message;
+    } else {
+      pokemonError = "An unknown error occurred while fetching Pokemon.";
+    }
+  }
+
   return (
     <>
       <div className="base-card">test</div>
       <div className="grid grid-cols-12 gap-4">
-      {Array.from({ length: 12 }).map((_, index) => (
-        <div key={index} className="col-span-4">
-          <div className="base-card !py-8 flex flex-col justify-center items-center gap-2 cursor-pointer hover:outline-2 hover:outline-green-500">
-            <Image
-              src={BASE_IMAGE + (index + 1) + '.png'}
-              alt="venasaur"
-              width={90}
-              height={90}
-              className="transition-transform duration-300 ease-in-out hover:scale-125"
-            />
-            <div className="font-bold text-xl">Venasaur</div>
-            <div className="flex justify-center items-center gap-2">
-              <ChipType type="grass">Grass</ChipType>
-              <ChipType type="fire">Fire</ChipType>
-            </div>
-          </div>
-        </div>
-      ))}
+        <PokemonGroupCard
+          pokemonError={pokemonError}
+          pokemonList={pokemonList}
+        />
       </div>
     </>
   );
