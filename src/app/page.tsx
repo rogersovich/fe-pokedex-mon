@@ -5,8 +5,8 @@ import { getPokemonList } from "@/lib/api/pokemon";
 import type { BaseResponse } from "@/types/base";
 import type { PokemonList } from "@/types/pokemon";
 import type { TBaseType } from "@/types/types";
-import ChipType from "@/components/chip-type";
 import PokemonPageControl from "@/components/pokemon-page-control";
+import InputSearchPokemon from "@/components/input-search-pokemon";
 
 // Define a default limit for your API calls
 const ITEMS_PER_PAGE = 20;
@@ -21,16 +21,20 @@ export default async function Home({ searchParams }: PokemonPageProps) {
   let pokemonError: string | null = null;
   let pokemonTypeResponse: BaseResponse<TBaseType[]> | null = null;
 
+  // Await searchParams before accessing its properties
+  const resolvedSearchParams = await searchParams;
+
   // Extract offset from searchParams, default to 0 if not present or invalid
-  const offset = parseInt((searchParams.offset as string) || "0", 10);
+  const offset = parseInt((resolvedSearchParams.offset as string) || "0", 10);
   const limit = parseInt(
-    (searchParams.limit as string) || String(ITEMS_PER_PAGE),
+    (resolvedSearchParams.limit as string) || String(ITEMS_PER_PAGE),
     10
   );
+  const q = (resolvedSearchParams.q as string) || "";
 
   try {
     const [pokemonData, pokemonTypeData] = await Promise.all([
-      getPokemonList({ offset, limit }),
+      getPokemonList({ offset, limit, q }),
       getPokemonTypeList(),
     ]);
 
@@ -47,20 +51,7 @@ export default async function Home({ searchParams }: PokemonPageProps) {
   return (
     <>
       <div className="base-card">
-        <input
-          placeholder="Search pokemon..."
-          type="text"
-          className="w-full focus:outline-none"
-        />
-      </div>
-      <div className="base-card">
-        <div className="flex flex-wrap justify-center items-center gap-2">
-          {pokemonTypeResponse?.results.map((type, i_type) => (
-            <ChipType key={i_type} type={type.name}>
-              {type.name}
-            </ChipType>
-          ))}
-        </div>
+       <InputSearchPokemon limit={limit} offset={offset} q={q} />
       </div>
       <div className="base-card">
         <PokemonPageControl
