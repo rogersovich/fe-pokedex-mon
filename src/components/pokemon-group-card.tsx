@@ -16,6 +16,12 @@ export default function PokemonGroupCard({
     <>
       {pokemonError ? (
         <p className="text-center text-red-500">Error: {pokemonError}</p>
+      ) : pokemonList?.results.length === 0 ? (
+        <div className="col-span-12">
+          <div className="base-card">
+            <div className="text-center">No results found</div>
+          </div>
+        </div>
       ) : (
         <>
           {pokemonList?.results.map((pokemon, i_pokemon) => (
@@ -28,7 +34,9 @@ export default function PokemonGroupCard({
                   height={90}
                   className="transition-transform duration-300 ease-in-out hover:scale-125"
                 />
-                <div className="font-bold text-xl capitalize">{pokemon.name}</div>
+                <div className="font-bold text-xl capitalize">
+                  {pokemon.name}
+                </div>
                 <div className="flex justify-center items-center gap-2">
                   {pokemon.types.map((type, i_type) => (
                     <ChipType key={i_type} type={type.type.name}>

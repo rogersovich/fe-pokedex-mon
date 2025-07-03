@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 20;
 
 // Page components in the App Router receive searchParams as a prop
 interface PokemonPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function Home({ searchParams }: PokemonPageProps) {

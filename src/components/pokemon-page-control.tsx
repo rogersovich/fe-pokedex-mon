@@ -68,9 +68,6 @@ export default function PokemonPageControl({
       >
         Prev
       </button>
-      <span className="text-sm">
-        Page {Math.floor(currentOffset / limit) + 1}
-      </span>
       <button
         type="button"
         className={`px-4 py-1.5 rounded text-sm uppercase ${

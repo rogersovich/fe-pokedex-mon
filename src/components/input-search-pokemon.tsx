@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useSearchStore } from "@/stores/search-store";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 interface SearchProps {
@@ -14,6 +15,8 @@ export default function InputSearchPokemon({
   limit,
   q: initialQ = "",
 }: SearchProps) {
+  const searchStore = useSearchStore();
+
   const router = useRouter();
   const debounceTime = 500;
 
@@ -41,16 +44,22 @@ export default function InputSearchPokemon({
     if (!isMounted.current) {
       isMounted.current = true;
       if (initialQ !== "") {
-        router.push(`?limit=${limit}&offset=${offset}&q=${initialQ}`);
+        router.push(
+          `?limit=${searchStore.base_limit}&offset=${searchStore.base_offset}&q=${initialQ}`
+        );
       }
-      return; // Jangan jalankan onSearch pada render pertama
+      return;
     }
 
     //todo: When not Initial Mounted
     if (debouncedSearchTerm !== "") {
-      router.push(`?limit=${limit}&offset=${offset}&q=${debouncedSearchTerm}`);
+      router.push(
+        `?limit=${searchStore.base_limit}&offset=${searchStore.base_offset}&q=${debouncedSearchTerm}`
+      );
     } else {
-      router.push(`?limit=${limit}&offset=${offset}`);
+      router.push(
+        `?limit=${searchStore.base_limit}&offset=${searchStore.base_offset}`
+      );
     }
   }, [debouncedSearchTerm]);
 
