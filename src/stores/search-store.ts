@@ -13,7 +13,7 @@ interface SearchState {
 }
 
 // Define your default values
-const DEFAULT_LIMIT = 20;
+const DEFAULT_LIMIT = 9;
 const DEFAULT_OFFSET = 0;
 
 export const useSearchStore = create<SearchState>((set) => ({

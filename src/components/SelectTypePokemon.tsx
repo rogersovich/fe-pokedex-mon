@@ -3,43 +3,69 @@
 import type { TBaseType } from "@/types/types";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-const CreatableSelect = dynamic(() => import("react-select/creatable"), { ssr: false });
+import type { BaseResponse } from "@/types/base";
+import { getPokemonTypeList } from "@/lib/api/pokemon-type";
+import { useQuery } from "@tanstack/react-query";
+const ReactSelect = dynamic(() => import("react-select"), {
+  ssr: false,
+});
 
-const formatOptionLabel = (option: TBaseType) => {
+interface PokemonTypeOption {
+  label: string;
+  value: string;
+}
+
+const fetchPokemonTypes = async (): Promise<BaseResponse<TBaseType[]>> => {
+  const data = await getPokemonTypeList();
+
+  return data;
+};
+
+const formatOptionLabel = (option: PokemonTypeOption) => {
   return (
     <div className="flex items-center gap-2">
-      <span className="capitalize">{option.name}</span>
+      <span className="capitalize">{option.label}</span>
     </div>
   );
 };
 
-export default function SelectTypePokemon({
-  pokemonTypeList,
-}: {
-  pokemonTypeList: TBaseType[];
-}) {
-  const [selectedType, setSelectedType] = useState<TBaseType | null>(null);
+export default function SelectTypePokemon() {
+  const {
+    data: resPokemonTypes,
+    isLoading,
+    isError,
+  } = useQuery<BaseResponse<TBaseType[]> | null, Error>({
+    queryKey: ["pokemonTypes"],
+    queryFn: () => fetchPokemonTypes(),
+    enabled: true,
+  });
 
-  const handleChange = (selectedOption: TBaseType | null) => {
+
+  const pokemonTypes = resPokemonTypes?.results.map((type) => ({
+    label: type.name,
+    value: type.name,
+  }));
+
+  const [selectedType, setSelectedType] = useState<string>("");
+
+  const handleChange = (selectedOption: any) => {
     if (selectedOption) {
-      setSelectedType(selectedOption);
+      setSelectedType(selectedOption.value);
     }
   };
 
   return (
-    <div className="w-[150px]">
-      {/* <CreatableSelect
-        value={selectedType}
-        options={pokemonTypeList}
-        formatOptionLabel={formatOptionLabel}
-        onChange={handleChange}
-      /> */}
-      <CreatableSelect
-        value={selectedType}
-        options={pokemonTypeList}
-        formatOptionLabel={(option) => formatOptionLabel(option as TBaseType)}
-        onChange={(option) => handleChange(option as TBaseType)}
-      />
+    <div className="w-[200px]">
+      {!isError && pokemonTypes && (
+        <ReactSelect
+          options={pokemonTypes}
+          onChange={(option) => handleChange(option as any)}
+          formatOptionLabel={(option) => formatOptionLabel(option as PokemonTypeOption)}
+          isLoading={isLoading}
+          isClearable
+          isSearchable
+        />
+      )}
     </div>
   );
 }

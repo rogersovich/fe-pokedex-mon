@@ -1,33 +1,25 @@
 "use client";
 
 import { useSearchStore } from "@/stores/search-store";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import { IconX } from "@tabler/icons-react";
+import clsx from "clsx";
+import React, { useEffect, useState } from "react";
 
 interface SearchProps {
   q: string;
+  onTriggerRefetch: (q: string) => void;
 }
 
 export default function InputSearchPokemon({
   q: initialQ = "",
+  onTriggerRefetch,
 }: SearchProps) {
-  const searchStore = useSearchStore();
-
-  const router = useRouter();
   const debounceTime = 500;
 
+  const searchStore = useSearchStore();
   const [searchTerm, setSearchTerm] = useState(initialQ);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(initialQ);
-
-  // Ref untuk melacak apakah ini adalah render pertama (sudah ter-mount)
-  const isMounted = useRef(false);
-
-  const generateURL = (limit: number, offset: number, q: string) => {
-    if (q === "") {
-      return `?limit=${limit}&offset=${offset}`;
-    }
-    return `?limit=${limit}&offset=${offset}&q=${q}`;
-  };
+  const [isInitialMounted, setIsInitialMounted] = useState(true);
 
   // --- Effect 1: Debounce the search term ---
   useEffect(() => {
@@ -44,41 +36,40 @@ export default function InputSearchPokemon({
 
   // --- Effect 2: Trigger search when debounced term changes ---
   useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true;
-      if (initialQ !== "") {
-        router.push(
-          generateURL(searchStore.base_limit, searchStore.base_offset, initialQ)
-        );
-      }
-      return;
-    }
-
-    //todo: When not Initial Mounted
-    if (debouncedSearchTerm !== "") {
-      router.push(
-        generateURL(searchStore.base_limit, searchStore.base_offset, debouncedSearchTerm)
-      );
+    if (isInitialMounted) {
+      setIsInitialMounted(false);
     } else {
-      router.push(
-        generateURL(searchStore.base_limit, searchStore.base_offset, "")
-      );
+      onTriggerRefetch(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    searchStore.setOffset(0);
+  };
+
+  const handleClear = () => {
+    setSearchTerm("");
+    searchStore.setOffset(0);
   };
 
   return (
     <>
-      <input
-        placeholder="Search pokemon..."
-        type="text"
-        className="w-full focus:outline-none"
-        value={searchTerm}
-        onChange={handleChange}
-      />
+      <div className="w-full relative">
+        <input
+          placeholder="Search pokemon..."
+          type="text"
+          className={clsx("w-full", "focus:outline-none", searchTerm && "pr-8")}
+          value={searchTerm}
+          onChange={handleChange}
+        />
+        {searchTerm && (
+          <IconX
+            className="w-5 h-5 absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer hover:text-red-500"
+            onClick={handleClear}
+          />
+        )}
+      </div>
     </>
   );
 }

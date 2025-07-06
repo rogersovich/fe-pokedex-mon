@@ -1,13 +1,12 @@
 "use client";
 
+import { useSearchStore } from "@/stores/search-store";
 import React from "react";
 
 interface PaginationControlsProps {
   count: number;
   limit: number;
   offset: number;
-  nextUrl?: string;
-  previousUrl?: string;
   onTriggerRefetch: (limit: number, offset: number) => void;
 }
 
@@ -15,34 +14,28 @@ export default function PokemonPageControl({
   count,
   limit,
   offset,
-  nextUrl,
-  previousUrl,
   onTriggerRefetch,
 }: PaginationControlsProps) {
-  const handleNext = () => {
-    if (nextUrl) {
-      const offsetVal = offset + limit
+  const searchStore = useSearchStore();
 
-      onTriggerRefetch(limit, +offsetVal);
-    } else {
-      const offsetVal = offset + limit;
-      onTriggerRefetch(limit, +offsetVal);
-    }
+  const handleNext = () => {
+    const offsetVal = offset + limit
+
+    searchStore.setOffset(offsetVal);
+
+    onTriggerRefetch(limit, +offsetVal);
   };
 
   const handlePrev = () => {
-    if (previousUrl) {
-     
-      const offsetVal = Math.max(0, offset - limit);
-      onTriggerRefetch(limit, +offsetVal);
-    } else {
-      const offsetVal = Math.max(0, offset - limit);
-      onTriggerRefetch(limit, +offsetVal);
-    }
+    const offsetVal = Math.max(0, offset - limit);
+
+    searchStore.setOffset(offsetVal);
+
+    onTriggerRefetch(limit, +offsetVal);
   };
 
   // Determine if there are more pages based on total count
-  const hasNextPage = offset + limit < count;
+  const hasNextPage = (offset + limit < count);
   const hasPreviousPage = offset > 0;
 
   return (

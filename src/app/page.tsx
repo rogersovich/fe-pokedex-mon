@@ -34,26 +34,6 @@ export default async function Home() {
 
   return (
     <>
-      {/* <div className="base-card">
-        <InputSearchPokemon q={q} />
-      </div>
-      <div className="base-card flex items-center justify-between gap-4">
-        <PokemonPageControl
-          count={pokemonResponse?.count || 0}
-          limit={limit}
-          nextUrl={pokemonResponse?.next}
-          previousUrl={pokemonResponse?.previous}
-        />
-        { !pokemonError && pokemonTypeResponse && (
-          <SelectTypePokemon pokemonTypeList={pokemonTypeResponse.results} />
-        )}
-      </div> */}
-      {/* <div className="grid grid-cols-12 gap-4">
-        <PokemonGroupCard
-          pokemonError={pokemonError}
-          pokemonList={pokemonResponse}
-        />
-      </div> */}
       <PokemonClientPageWrapper
         pokemonResponse={pokemonResponse}
         pokemonError={pokemonError}
