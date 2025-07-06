@@ -4,9 +4,9 @@ import ChipType from "@/components/ChipType";
 
 import type { BaseResponse } from "@/types/base";
 import type { PokemonList } from "@/types/pokemon";
-import ShimmerCardPokemon from "@/app/components/ShimmerCardPokemon";
-import ErrorCardPokemon from "@/app/components/ErrorCardPokemon";
-import NotFoundCardPokemon from "@/app/components/NotFoundCardPokemon";
+import ShimmerCardPokemon from "@/app/pokemon/components/ShimmerCardPokemon";
+import ErrorCardPokemon from "@/app/pokemon/components/ErrorCardPokemon";
+import NotFoundCardPokemon from "@/app/pokemon/components/NotFoundCardPokemon";
 
 export default function PokemonGroupCard({
   pokemonError,

@@ -6,7 +6,12 @@ export default function TheHeader() {
     <div className="base-card flex justify-center gap-6 sticky top-0 border border-slate-200 z-10">
       <Link href="/">
         <div className='border border-red-300 px-4 py-2 rounded font-bold'>
-          Pokedex
+          Home
+        </div>
+      </Link>
+      <Link href="/pokemon">
+        <div className='border border-red-300 px-4 py-2 rounded font-bold'>
+          Pokemon
         </div>
       </Link>
       <Link href="/about">

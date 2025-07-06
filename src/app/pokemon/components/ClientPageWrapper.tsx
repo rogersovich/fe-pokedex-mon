@@ -4,12 +4,12 @@ import type { BaseResponse } from "@/types/base";
 import type { PokemonList } from "@/types/pokemon";
 
 import React, { useState } from "react";
-import InputSearchPokemon from "@/components/InputSearchPokemon";
-import PokemonGroupCard from "@/components/PokemonGroupCard";
-import PokemonPageControl from "@/components/PokemonPageControl";
+import InputSearchPokemon from "@/app/pokemon/components/InputSearchPokemon";
+import PokemonGroupCard from "@/app/pokemon/components/PokemonGroupCard";
+import PokemonPageControl from "@/app/pokemon/components/PokemonPageControl";
 import { getPokemonList } from "@/lib/api/pokemon";
 import { useQuery } from "@tanstack/react-query";
-import SelectTypePokemon from "@/components/SelectTypePokemon";
+import SelectTypePokemon from "@/app/pokemon/components/SelectTypePokemon";
 
 interface ClientPageWrapperProps {
   pokemonResponse: BaseResponse<PokemonList[]> | null;
