@@ -8,7 +8,6 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 // Import komponen UI lainnya
 import InputSearchPokemon from "@/app/pokemon/components/InputSearchPokemon";
 import PokemonGroupCard from "@/app/pokemon/components/PokemonGroupCard";
-import PokemonPageControl from "@/app/pokemon/components/PokemonPageControl";
 import SelectTypePokemon from "@/app/pokemon/components/SelectTypePokemon";
 
 // Import custom hooks
@@ -31,6 +30,7 @@ export default function ClientPageWrapper({
   const [limitParam, setLimitParam] = useState(12);
   const [offsetParam, setOffsetParam] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [isQueryEnabled, setIsQueryEnabled] = useState(false); // Enable query after first interaction
 
   // Ref untuk mencegah pemanggilan load more berulang
@@ -57,6 +57,7 @@ export default function ClientPageWrapper({
     pokemonDataQuery: pokemonDataQuery,
     isFetching: isFetching,
     isQueryEnabled: isQueryEnabled,
+    isSearching,
   });
 
   // --- NEW: useEffect untuk mereset isLoadInProgressRef.current ---
@@ -64,34 +65,33 @@ export default function ClientPageWrapper({
     // Ketika isFetching berubah dari true ke false (fetch selesai), reset flag
     if (!isFetching && isLoadInProgressRef.current) {
       isLoadInProgressRef.current = false;
+
+      // NEW: Reset isSearching
+      if (isSearching) {
+        setIsSearching(false);
+      }
+    } else if (!isFetching) {
+      // NEW: Reset isSearching
+      if (isSearching) {
+        setIsSearching(false);
+      }
     }
   }, [isFetching]); // Bergantung pada isFetching
 
   // --- Error Handling ---
   const combinedPokemonError = isError ? error.message : pokemonError;
 
-  // --- Pagination Trigger (for manual page changes) ---
-  const handleTriggerPagination = useCallback(
-    (limit: number, offset: number) => {
-      if (!isQueryEnabled) setIsQueryEnabled(true);
-      setLimitParam(limit);
-      setOffsetParam(offset);
-      searchStore.offset = offset;
-      isLoadInProgressRef.current = false; // Reset flag for new pagination/search
-    },
-    [isQueryEnabled, searchStore]
-  );
-
   // --- Search Trigger ---
   const handleTriggerSearch = useCallback(
     (q: string) => {
       if (!isQueryEnabled) setIsQueryEnabled(true);
+      setIsSearching(true);
       setSearchQuery(q);
       setOffsetParam(0); // Reset offset for new search
       searchStore.offset = 0;
       isLoadInProgressRef.current = false; // Reset flag for new pagination/search
     },
-    [isQueryEnabled, searchStore]
+    [isQueryEnabled, searchStore, isSearching]
   );
 
   // --- Load More Function (dipanggil oleh scroll dan tombol manual) ---
@@ -130,6 +130,7 @@ export default function ClientPageWrapper({
 
   return (
     <>
+      {isSearching ? "Searching..." : "not searching"}
       <div className="base-card">
         <InputSearchPokemon
           q={searchQuery}
@@ -137,12 +138,6 @@ export default function ClientPageWrapper({
         />
       </div>
       <div className="base-card flex items-center justify-between gap-4">
-        <PokemonPageControl
-          count={fullCombinePokemonData?.count || 0}
-          limit={limitParam}
-          offset={offsetParam}
-          onTriggerRefetch={handleTriggerPagination}
-        />
         <SelectTypePokemon />
       </div>
       <div className="grid grid-cols-12 gap-4">

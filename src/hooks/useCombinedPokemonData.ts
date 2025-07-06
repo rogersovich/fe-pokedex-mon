@@ -8,6 +8,7 @@ interface UseCombinedPokemonDataProps {
   pokemonDataQuery: BaseResponse<PokemonList[]> | null | undefined;
   isFetching: boolean; // Dari useQuery
   isQueryEnabled: boolean; // Dari parent component
+  isSearching: boolean
 }
 
 export const useCombinedPokemonData = ({
@@ -15,6 +16,7 @@ export const useCombinedPokemonData = ({
   pokemonDataQuery,
   isFetching,
   isQueryEnabled,
+  isSearching,
 }: UseCombinedPokemonDataProps) => {
   const [fullCombinePokemonData, setFullCombinePokemonData] = useState<BaseResponse<PokemonList[]> | null>(
     pokemonDataSSR
@@ -34,6 +36,11 @@ export const useCombinedPokemonData = ({
     // Process data from useQuery after fetch completes and if query is enabled
     if (pokemonDataQuery && !isFetching && isQueryEnabled) {
       setFullCombinePokemonData((prevData) => {
+        // --- NEW: Handle Search Scenario ---
+        if (isSearching) {
+          return pokemonDataQuery;
+        }
+
         if (!prevData || prevData.results.length === 0) return pokemonDataQuery;
 
         // Filter out duplicates (assuming 'name' is unique identifier)
