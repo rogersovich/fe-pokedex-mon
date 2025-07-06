@@ -5,14 +5,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 interface SearchProps {
-  offset: number;
-  limit: number;
   q: string;
 }
 
 export default function InputSearchPokemon({
-  offset,
-  limit,
   q: initialQ = "",
 }: SearchProps) {
   const searchStore = useSearchStore();
@@ -25,6 +21,13 @@ export default function InputSearchPokemon({
 
   // Ref untuk melacak apakah ini adalah render pertama (sudah ter-mount)
   const isMounted = useRef(false);
+
+  const generateURL = (limit: number, offset: number, q: string) => {
+    if (q === "") {
+      return `?limit=${limit}&offset=${offset}`;
+    }
+    return `?limit=${limit}&offset=${offset}&q=${q}`;
+  };
 
   // --- Effect 1: Debounce the search term ---
   useEffect(() => {
@@ -45,7 +48,7 @@ export default function InputSearchPokemon({
       isMounted.current = true;
       if (initialQ !== "") {
         router.push(
-          `?limit=${searchStore.base_limit}&offset=${searchStore.base_offset}&q=${initialQ}`
+          generateURL(searchStore.base_limit, searchStore.base_offset, initialQ)
         );
       }
       return;
@@ -54,11 +57,11 @@ export default function InputSearchPokemon({
     //todo: When not Initial Mounted
     if (debouncedSearchTerm !== "") {
       router.push(
-        `?limit=${searchStore.base_limit}&offset=${searchStore.base_offset}&q=${debouncedSearchTerm}`
+        generateURL(searchStore.base_limit, searchStore.base_offset, debouncedSearchTerm)
       );
     } else {
       router.push(
-        `?limit=${searchStore.base_limit}&offset=${searchStore.base_offset}`
+        generateURL(searchStore.base_limit, searchStore.base_offset, "")
       );
     }
   }, [debouncedSearchTerm]);
