@@ -5,7 +5,7 @@ import type { PokemonList } from "@/types/pokemon";
 import { default as PokemonClientPageWrapper } from "@/app/pokemon/components/ClientPageWrapper";
 
 // Define a default limit for your API calls
-const LIMIT = 9;
+const LIMIT = 15;
 const OFFSET = 0;
 
 export default async function PokemonPage() {
@@ -28,7 +28,7 @@ export default async function PokemonPage() {
 
   return (
     <PokemonClientPageWrapper
-      pokemonResponse={pokemonResponse}
+      pokemonDataSSR={pokemonResponse}
       pokemonError={pokemonError}
     />
   );

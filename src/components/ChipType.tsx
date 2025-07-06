@@ -102,13 +102,13 @@ export default function ChipType({ type, children }: ChipProps) {
   return (
     <div
       className={clsx(
-        "px-2.5 py-1.5 rounded-md flex justify-center items-center",
+        "px-2 py-1 rounded-md flex justify-center items-center",
         selectedClasses.bg // Apply dynamic background color
       )}
     >
       <span
         className={clsx(
-          "uppercase font-bold text-[12px]",
+          "uppercase font-bold text-[11px]",
           selectedClasses.text
         )}
       >
