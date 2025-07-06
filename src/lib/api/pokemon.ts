@@ -13,7 +13,6 @@ export interface GetPokemonListOptions {
 export async function getPokemonList(
   options?: GetPokemonListOptions
 ): Promise<BaseResponse<PokemonList[]>> {
-  console.log("WOIII POKEMON")
   // Pass offset and limit as query parameters
   const params: Record<string, string | number> = {};
   if (options?.offset !== undefined) {

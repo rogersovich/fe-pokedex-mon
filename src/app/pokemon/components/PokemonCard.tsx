@@ -14,7 +14,7 @@ export default function PokemonCard({ pokemon }: { pokemon: PokemonList }) {
         width={90}
         height={90}
         quality={10}
-        loading="lazy"
+        loading="eager"
         className="transition-transform duration-300 ease-in-out hover:scale-125"
       />
       <div className="font-bold text-base capitalize">{pokemon.name}</div>
