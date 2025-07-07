@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   width: number;
   height: number;
+  fill?: boolean;
 }
 
 const fallbackImage = "/images/fallback.webp";
@@ -41,18 +42,31 @@ export default function CustomImage({ src, width, height, ...props }: Props) {
 
   return (
     <>
-      <Image
-        priority
-        alt="thumbnail"
-        src={error ? fallbackImage : src}
-        width={width}
-        height={height}
-        placeholder={`data:image/svg+xml;base64,${toBase64(
-          shimmer(width, height)
-        )}`}
-        onError={() => setError}
-        {...props}
-      />
+      {props.fill ? (
+        <Image
+          priority
+          alt="thumbnail"
+          src={error ? fallbackImage : src}
+          placeholder={`data:image/svg+xml;base64,${toBase64(
+            shimmer(width, height)
+          )}`}
+          onError={() => setError}
+          {...props}
+        />
+      ) : (
+        <Image
+          priority
+          alt="thumbnail"
+          src={error ? fallbackImage : src}
+          width={width}
+          height={height}
+          placeholder={`data:image/svg+xml;base64,${toBase64(
+            shimmer(width, height)
+          )}`}
+          onError={() => setError}
+          {...props}
+        />
+      )}
     </>
   );
 }

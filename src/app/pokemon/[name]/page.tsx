@@ -1,19 +1,11 @@
-import ChipType from "@/components/ChipType";
-import ImageWithFallback from "@/components/ImageWithFallback";
 import { getPokemon } from "@/lib/api";
-import {
-  decimetersToFeetInches,
-  decimetersToMeters,
-  hectogramsToKilograms,
-  hectogramsToPounds,
-} from "@/lib/pokemon-size";
-import { formatPokemonName } from "@/lib/string-formatter";
-import type { TPokemonDetailResponse } from "@/types/pokemon";
 import React from "react";
 import PokemonGeneralData from "./components/PokemonGeneralData";
 import CustomImage from "@/components/CustomImage";
 import PokemonTrainingData from "./components/PokemonTrainingData";
 import PokemonBreedingData from "./components/PokemonBreedingData";
+import PokemonBaseStat from "./components/PokemonBaseStat";
+import type { TPokemonDetailResponse } from "@/types/pokemon";
 
 interface PokemonPageProps {
   params: Promise<{
@@ -42,7 +34,7 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
     <>
       {pokemonResponse && (
         <div className="base-card w-full">
-          <div className="grid grid-cols-12 gap-x-3 gap-y-6 p-3">
+          <div className="grid grid-cols-12 gap-x-3 gap-y-10 p-3">
             <div className="col-span-12">
               <div className="flex items-center gap-1 text-lg">
                 <div className="capitalize">{pokemonResponse.name}</div>
@@ -61,22 +53,27 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
               </div>
             </div>
             <div className="col-span-5">
-              <div className="flex items-center justify-center">
+              <div className="w-full h-full relative">
                 <CustomImage
                   src={pokemonResponse.thumbnail}
                   width={250}
                   height={250}
+                  fill={true}
+                  className="object-contain w-full h-full"
                 />
               </div>
             </div>
             <div className="col-span-7">
               <PokemonGeneralData pokemon={pokemonResponse} />
             </div>
-            <div className="col-span-6">
+            <div className="col-span-5">
               <PokemonTrainingData pokemon={pokemonResponse} />
             </div>
             <div className="col-span-6">
               <PokemonBreedingData pokemon={pokemonResponse} />
+            </div>
+            <div className="col-span-10">
+              <PokemonBaseStat pokemon={pokemonResponse} />
             </div>
           </div>
         </div>
