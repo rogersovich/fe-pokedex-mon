@@ -2,21 +2,26 @@
 
 import React from "react";
 import ChipType from "@/components/ChipType";
-import type { PokemonList } from "@/types/pokemon";
-import ImageWithFallback from "@/components/ImageWithFallback";
+import CustomImage from "@/components/CustomImage";
+import { useRouter } from "next/navigation";
 import { formatPokemonName } from "@/lib/string-formatter";
+import type { PokemonList } from "@/types/pokemon";
 
 export default function PokemonCard({ pokemon }: { pokemon: PokemonList }) {
+  const router = useRouter();
   const formattedName = formatPokemonName(pokemon.name);
+  const onClickPokemon = (pokemon_name: string) => {
+    router.push(`/pokemon/${pokemon_name}`);
+  };
   return (
-    <div className="base-card !py-8 flex flex-col justify-center items-center gap-2 cursor-pointer">
-      <ImageWithFallback
+    <div
+      className="base-card !py-8 flex flex-col justify-center items-center gap-2 cursor-pointer"
+      onClick={() => onClickPokemon(pokemon.name)}
+    >
+      <CustomImage
         src={pokemon.thumbnail}
-        alt={pokemon.name}
         width={90}
         height={90}
-        quality={10}
-        loading="eager"
         className="transition-transform duration-300 ease-in-out hover:scale-125"
       />
       <div className="font-bold text-base capitalize">{formattedName}</div>

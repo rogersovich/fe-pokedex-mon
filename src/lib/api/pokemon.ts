@@ -1,5 +1,5 @@
 import type { BaseResponse } from "@/types/base";
-import type { PokemonList } from "@/types/pokemon";
+import type { PokemonList, TPokemonDetailResponse } from "@/types/pokemon";
 
 import { apiFetch } from "./base";
 
@@ -31,4 +31,9 @@ export async function getPokemonList(
   return apiFetch<BaseResponse<PokemonList[]>>("/pokemon", {
     params,
   });
+}
+
+
+export async function getPokemon(name: string) {
+  return apiFetch<TPokemonDetailResponse>(`/pokemon/${name}`);
 }

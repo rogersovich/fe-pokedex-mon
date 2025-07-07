@@ -130,7 +130,6 @@ export default function ClientPageWrapper({
 
   return (
     <>
-      {isSearching ? "Searching..." : "not searching"}
       <div className="base-card">
         <InputSearchPokemon
           q={searchQuery}
