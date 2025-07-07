@@ -137,6 +137,11 @@ export default function PokemonBaseStat({ pokemon }: MyProps) {
           </div>
         </div>
       </div>
+      <div className="text-sm text-slate-700 mt-5">
+        The ranges shown on the right are for a level 100 Pokémon. Maximum
+        values are based on a beneficial nature, 252 EVs, 31 IVs; minimum values
+        are based on a hindering nature, 0 EVs, 0 IVs.
+      </div>
     </>
   );
 }

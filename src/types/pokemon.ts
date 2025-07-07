@@ -24,7 +24,7 @@ export interface TPokemonDetailResponse {
   types: PokemonType[];
   stats: TStat[];
   abilities: TAbility[];
-  evolution: TEvolution[];
+  evolution: TEvolution;
   grouped_moves: TGroupedMove[];
   order: number;
   habitat: string;
