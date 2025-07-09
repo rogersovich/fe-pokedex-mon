@@ -35,6 +35,15 @@ export interface TPokemonDetailResponse {
     language: string;
     name: string;
   }[];
+  color: TBaseResource;
+  generation: TBaseResource;
+  is_baby: boolean;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  pokedex_numbers: {
+    entry_number: number;
+    pokedex: TBaseResource;
+  }[]
 }
 
 export interface TSprites {
@@ -145,4 +154,15 @@ export interface TBreeding {
   };
   hatch_counter: number;
   egg_cycles: number;
+}
+
+export interface TPokemonWeakness {
+  name: string;
+  weakness_point: number;
+}
+
+export interface TBasePokemonWeakness {
+  id: number;
+  pokemon_name: string;
+  weakness: TPokemonWeakness[];
 }

@@ -4,6 +4,7 @@ import CustomImage from "@/components/CustomImage";
 import type { TEvolution, TEvolutionChain } from "@/types/pokemon";
 import React from "react";
 import { IconArrowRight } from "@tabler/icons-react";
+import clsx from "clsx";
 
 interface EvolutionChartProps {
   evolutionData: TEvolution;
@@ -81,26 +82,35 @@ const EvolutionChart: React.FC<EvolutionChartProps> = ({ evolutionData }) => {
       ? String(pokemonNode.evolution_type.id)
       : "";
     const types = pokemonNode.evolution_type?.types;
+    const evoDetails = pokemonNode.evolution_details;
 
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
     return (
-      <div className="flex flex-col items-center p-2 min-w-[150px]">
-        <CustomImage src={imageUrl} width={100} height={100} />
-        <div className="text-sm text-gray-600 mb-1">
-          #{String(id).padStart(4, "0")}
-        </div>
-        <div className="font-bold text-lg capitalize mb-2">{name}</div>
-        {types && (
-          <div className="flex justify-center gap-1 flex-wrap">
-            {types.map((typeInfo, index) => (
-              <ChipType key={index} type={typeInfo.type.name}>
-                {typeInfo.type.name}
-              </ChipType>
-            ))}
+      <>
+        {evoDetails.length > 0 && (
+          <div className="flex flex-col gap-2 items-center">
+            <IconArrowRight size={20} />
+            {`(use ${evoDetails[0].item.name})`}
           </div>
         )}
-      </div>
+        <div className="flex flex-col items-center p-2 min-w-[150px]">
+          <CustomImage src={imageUrl} width={100} height={100} />
+          <div className="text-sm text-gray-600 mb-1">
+            #{String(id).padStart(4, "0")}
+          </div>
+          <div className="font-bold text-lg capitalize mb-2">{name}</div>
+          {types && (
+            <div className="flex justify-center gap-1 flex-wrap">
+              {types.map((typeInfo, index) => (
+                <ChipType key={index} type={typeInfo.type.name}>
+                  {typeInfo.type.name}
+                </ChipType>
+              ))}
+            </div>
+          )}
+        </div>
+      </>
     );
   };
 
@@ -118,19 +128,24 @@ const EvolutionChart: React.FC<EvolutionChartProps> = ({ evolutionData }) => {
           <div className="flex flex-col items-center mx-4 gap-y-2">
             <IconArrowRight size={20} />
             {currentPokemon.evolves_to[0]?.evolution_details &&
-              currentPokemon.evolves_to[0].evolution_details.length > 0 &&
-              currentPokemon.evolves_to[0].evolution_details[0].min_level && (
-                <span className="text-sm text-gray-600 whitespace-nowrap">
-                  (Level{" "}
-                  {currentPokemon.evolves_to[0].evolution_details[0].min_level})
-                </span>
-              )}
+            currentPokemon.evolves_to[0].evolution_details.length > 0 &&
+            currentPokemon.evolves_to[0].evolution_details[0].min_level ? (
+              <span className="text-sm text-gray-600 whitespace-nowrap">
+                (Level{" "}
+                {currentPokemon.evolves_to[0].evolution_details[0].min_level})
+              </span>
+            ) : null}
           </div>
         )}
 
         {/* Recursively render next evolutions */}
         {currentPokemon.evolves_to && currentPokemon.evolves_to.length > 0 && (
-          <div className="flex items-center">
+          <div
+            className={clsx(
+              "flex items-center",
+              currentPokemon.evolves_to.length > 3 && "flex-col"
+            )}
+          >
             {currentPokemon.evolves_to.map((nextEvolution, index) => (
               <React.Fragment key={index}>
                 {renderEvolutionFlow(nextEvolution)}

@@ -1,4 +1,3 @@
-import { apalah } from "@/lib/pokemon-size";
 import type { TPokemonDetailResponse, TStat } from "@/types/pokemon";
 import clsx from "clsx";
 import React from "react";
@@ -85,10 +84,6 @@ export default function PokemonBaseStat({ pokemon }: MyProps) {
     // Menjumlahkan semua nilai base_stat dari setiap stat
     return stats.reduce((total, stat) => total + stat.base_stat, 0);
   };
-
-  const listTypes = apalah()
-
-  console.log(listTypes)
 
   return (
     <>

@@ -8,6 +8,7 @@ import PokemonBaseStat from "./components/PokemonBaseStat";
 import type { TPokemonDetailResponse } from "@/types/pokemon";
 import PokemonChainEvolution from "./components/PokemonChainEvolution";
 import PokemonOtherNames from "./components/PokemonOtherNames";
+import PokemonDamageRelation from "./components/PokemonDamageRelation";
 
 interface PokemonPageProps {
   params: Promise<{
@@ -80,6 +81,12 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
             <div className="col-span-12">
               <PokemonChainEvolution
                 evolutionData={pokemonResponse.evolution}
+              />
+            </div>
+            <div className="col-span-9">
+              <PokemonDamageRelation
+                pokemon_id={pokemonResponse.id}
+                pokemon_types={pokemonResponse.types}
               />
             </div>
             <div className="col-span-12">
