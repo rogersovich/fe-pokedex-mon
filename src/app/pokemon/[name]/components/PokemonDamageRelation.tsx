@@ -34,7 +34,7 @@ export default function PokemonDamageRelation({
         <div>Error: {error?.message}</div>
       ) : pokemonWeakness ? (
         <div className="my-4">
-          <div className="text-3xl font-extrabold mb-4">Weakness</div>
+          <div className="text-3xl font-extrabold mb-4">Type defenses</div>
           <div className="flex flex-wrap items-center gap-2">
             {pokemonWeakness.weakness.map((dmg, i_dmg) => (
               <div

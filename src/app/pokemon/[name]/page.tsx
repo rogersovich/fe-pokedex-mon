@@ -55,7 +55,7 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                 <div>type Pokémon introduced in Generation 1.</div>
               </div>
             </div>
-            <div className="col-span-5">
+            <div className="col-span-6">
               <div className="w-full h-full relative">
                 <CustomImage
                   src={pokemonResponse.thumbnail}
@@ -66,13 +66,13 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                 />
               </div>
             </div>
-            <div className="col-span-7">
+            <div className="col-start-7 col-span-6">
               <PokemonGeneralData pokemon={pokemonResponse} />
             </div>
             <div className="col-span-5">
               <PokemonTrainingData pokemon={pokemonResponse} />
             </div>
-            <div className="col-span-6">
+            <div className="col-start-7 col-span-5">
               <PokemonBreedingData pokemon={pokemonResponse} />
             </div>
             <div className="col-span-12">
@@ -83,7 +83,7 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                 evolutionData={pokemonResponse.evolution}
               />
             </div>
-            <div className="col-span-9">
+            <div className="col-span-12">
               <PokemonDamageRelation
                 pokemon_id={pokemonResponse.id}
                 pokemon_types={pokemonResponse.types}

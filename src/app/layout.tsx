@@ -29,8 +29,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="grid grid-cols-12 gap-4 w-full bg-slate-100 min-h-screen pt-4 pb-8">
-          <div className="col-start-3 col-span-8 lg:col-start-4 lg:col-span-6 flex flex-col gap-4">
+        <div className="grid grid-cols-13 gap-4 w-full bg-slate-100 min-h-screen pt-4 pb-8">
+          <div className="col-span-13 lg:col-start-2 lg:col-span-11 xl:col-span-8 xl:col-start-3 2xl:col-span-7 2xl:col-start-4 flex flex-col gap-4">
             <TheHeader />
             <ReactQueryProvider>{children}</ReactQueryProvider>
           </div>

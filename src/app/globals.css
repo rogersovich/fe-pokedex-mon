@@ -28,3 +28,8 @@ body {
 .base-card {
   @apply bg-white rounded-lg p-4;
 }
+
+
+.grid-cols-13 {
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+}
