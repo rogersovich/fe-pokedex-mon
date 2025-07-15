@@ -3,6 +3,8 @@ import type { PokemonType, TBasePokemonWeakness } from "@/types/pokemon";
 import {
   getPokemonWeaknessType,
 } from "@/lib/api/pokemon-type";
+import type { BaseResponse } from "@/types/base";
+import type { TBaseType } from "@/types/types";
 
 interface UsePokemonWeaknessTypeDataOptions {
   pokemon_id: number;
@@ -13,7 +15,7 @@ interface UsePokemonWeaknessTypeDataOptions {
 const fetchPokemonAdditionalData = async (
   pokemon_id: number,
   pokemon_types: PokemonType[]
-): Promise<TBasePokemonWeakness> => {
+): Promise<BaseResponse<TBasePokemonWeakness>> => {
   const data = await getPokemonWeaknessType(pokemon_id, {
     types: pokemon_types,
   });
@@ -25,7 +27,7 @@ export const usePokemonWeaknessTypeData = ({
   pokemon_types,
   enabled,
 }: UsePokemonWeaknessTypeDataOptions) => {
-  return useQuery<TBasePokemonWeakness | null, Error>({
+  return useQuery<BaseResponse<TBasePokemonWeakness> | null, Error>({
     queryKey: ["pokemon-weaknes-type", pokemon_id, pokemon_types],
     queryFn: () => fetchPokemonAdditionalData(pokemon_id, pokemon_types),
     enabled: enabled,

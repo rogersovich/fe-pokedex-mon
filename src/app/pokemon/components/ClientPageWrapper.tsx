@@ -1,7 +1,7 @@
 "use client";
 
 import type { BaseResponse } from "@/types/base";
-import type { PokemonList } from "@/types/pokemon";
+import type { BasePokemonList } from "@/types/pokemon";
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
 
@@ -18,7 +18,7 @@ import { useScrollDetection } from "@/hooks/useScrollDetection";
 import { useSearchStore } from "@/stores/search-store";
 
 interface ClientPageWrapperProps {
-  pokemonDataSSR: BaseResponse<PokemonList[]> | null;
+  pokemonDataSSR: BaseResponse<BasePokemonList> | null;
   pokemonError: string | null;
 }
 
@@ -165,7 +165,7 @@ export default function ClientPageWrapper({
                 Muat Lebih Banyak
               </button>
             )}
-          {fullCombinePokemonData?.results.length === 0 &&
+          {fullCombinePokemonData?.data?.items.length === 0 &&
             !isLoading &&
             !isFetching &&
             !combinedPokemonError && (

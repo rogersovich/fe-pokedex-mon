@@ -5,10 +5,12 @@ import CustomImage from "@/components/CustomImage";
 import PokemonTrainingData from "./components/PokemonTrainingData";
 import PokemonBreedingData from "./components/PokemonBreedingData";
 import PokemonBaseStat from "./components/PokemonBaseStat";
-import type { TPokemonDetailResponse } from "@/types/pokemon";
+import type { BasePokemonDetail, TPokemonDetailResponse } from "@/types/pokemon";
 import PokemonChainEvolution from "./components/PokemonChainEvolution";
 import PokemonOtherNames from "./components/PokemonOtherNames";
 import PokemonDamageRelation from "./components/PokemonDamageRelation";
+import PokemonNavigation from "./components/PokemonNavigation";
+import type { BaseResponse } from "@/types/base";
 
 interface PokemonPageProps {
   params: Promise<{
@@ -18,13 +20,13 @@ interface PokemonPageProps {
 
 export default async function PokemonNamePage({ params }: PokemonPageProps) {
   const awaitedParams = await params;
-  let pokemonResponse: TPokemonDetailResponse | null = null;
+  let pokemonResponse: BasePokemonDetail| null = null;
   let pokemonError: string | null = null;
 
   try {
     const [pokemonData] = await Promise.all([getPokemon(awaitedParams.name)]);
 
-    pokemonResponse = pokemonData;
+    pokemonResponse = pokemonData.data;
   } catch (err) {
     if (err instanceof Error) {
       pokemonError = err.message;
@@ -36,64 +38,67 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
   return (
     <>
       {pokemonResponse && (
-        <div className="base-card w-full">
-          <div className="grid grid-cols-12 gap-x-3 gap-y-10 p-3">
-            <div className="col-span-12">
-              <div className="flex items-center gap-1 text-lg">
-                <div className="capitalize">{pokemonResponse.name}</div>
-                <div>is a</div>
-                <div className="flex items-center">
-                  {pokemonResponse.types.map((type, i_type) => (
-                    <div key={i_type} className="font-bold capitalize">
-                      {type.type.name}
-                      {pokemonResponse.types.length - 1 !== i_type && (
-                        <span>/</span>
-                      )}
-                    </div>
-                  ))}
+        <>
+          <div className="base-card w-full">
+            <div className="grid grid-cols-12 gap-x-3 gap-y-10 p-3">
+              <div className="col-span-12">
+                <div className="flex items-center gap-1 text-lg">
+                  <div className="capitalize">{pokemonResponse.item.name}</div>
+                  <div>is a</div>
+                  <div className="flex items-center">
+                    {pokemonResponse.item.types.map((type, i_type) => (
+                      <div key={i_type} className="font-bold capitalize">
+                        {type.type.name}
+                        {pokemonResponse.item.types.length - 1 !== i_type && (
+                          <span>/</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <div>type Pokémon introduced in Generation 1.</div>
                 </div>
-                <div>type Pokémon introduced in Generation 1.</div>
               </div>
-            </div>
-            <div className="col-span-6">
-              <div className="w-full h-full relative">
-                <CustomImage
-                  src={pokemonResponse.thumbnail}
-                  width={250}
-                  height={250}
-                  fill={true}
-                  className="object-contain w-full h-full"
+              <div className="col-span-6">
+                <div className="w-full h-full relative">
+                  <CustomImage
+                    src={pokemonResponse.item.thumbnail}
+                    width={250}
+                    height={250}
+                    fill={true}
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+              </div>
+              <div className="col-start-7 col-span-6">
+                <PokemonGeneralData pokemon={pokemonResponse.item} />
+              </div>
+              <div className="col-span-5">
+                <PokemonTrainingData pokemon={pokemonResponse.item} />
+              </div>
+              <div className="col-start-7 col-span-5">
+                <PokemonBreedingData pokemon={pokemonResponse.item} />
+              </div>
+              <div className="col-span-12">
+                <PokemonBaseStat pokemon={pokemonResponse.item} />
+              </div>
+              <div className="col-span-12">
+                <PokemonChainEvolution
+                  evolutionData={pokemonResponse.item.evolution}
                 />
               </div>
-            </div>
-            <div className="col-start-7 col-span-6">
-              <PokemonGeneralData pokemon={pokemonResponse} />
-            </div>
-            <div className="col-span-5">
-              <PokemonTrainingData pokemon={pokemonResponse} />
-            </div>
-            <div className="col-start-7 col-span-5">
-              <PokemonBreedingData pokemon={pokemonResponse} />
-            </div>
-            <div className="col-span-12">
-              <PokemonBaseStat pokemon={pokemonResponse} />
-            </div>
-            <div className="col-span-12">
-              <PokemonChainEvolution
-                evolutionData={pokemonResponse.evolution}
-              />
-            </div>
-            <div className="col-span-12">
-              <PokemonDamageRelation
-                pokemon_id={pokemonResponse.id}
-                pokemon_types={pokemonResponse.types}
-              />
-            </div>
-            <div className="col-span-12">
-              <PokemonOtherNames pokemon={pokemonResponse} />
+              <div className="col-span-12">
+                <PokemonDamageRelation
+                  pokemon_id={pokemonResponse.item.id}
+                  pokemon_types={pokemonResponse.item.types}
+                />
+              </div>
+              <div className="col-span-12">
+                <PokemonOtherNames pokemon={pokemonResponse.item} />
+              </div>
             </div>
           </div>
-        </div>
+          <PokemonNavigation/>
+        </>
       )}
     </>
   );

@@ -1,11 +1,11 @@
 // hooks/useCombinedPokemonData.ts
 import { useState, useEffect, useRef } from 'react';
 import type { BaseResponse } from "@/types/base";
-import type { PokemonList } from "@/types/pokemon";
+import type { BasePokemonList } from "@/types/pokemon";
 
 interface UseCombinedPokemonDataProps {
-  pokemonDataSSR: BaseResponse<PokemonList[]> | null;
-  pokemonDataQuery: BaseResponse<PokemonList[]> | null | undefined;
+  pokemonDataSSR: BaseResponse<BasePokemonList> | null;
+  pokemonDataQuery: BaseResponse<BasePokemonList> | null | undefined;
   isFetching: boolean; // Dari useQuery
   isQueryEnabled: boolean; // Dari parent component
   isSearching: boolean
@@ -18,7 +18,7 @@ export const useCombinedPokemonData = ({
   isQueryEnabled,
   isSearching,
 }: UseCombinedPokemonDataProps) => {
-  const [fullCombinePokemonData, setFullCombinePokemonData] = useState<BaseResponse<PokemonList[]> | null>(
+  const [fullCombinePokemonData, setFullCombinePokemonData] = useState<BaseResponse<BasePokemonList> | null>(
     pokemonDataSSR
   );
   const [hasMoreData, setHasMoreData] = useState(true);
@@ -28,7 +28,7 @@ export const useCombinedPokemonData = ({
     // Initial load with SSR data
     if (!isInitialLoadCompleteRef.current && pokemonDataSSR) {
       setFullCombinePokemonData(pokemonDataSSR);
-      setHasMoreData(!!pokemonDataSSR.next);
+      setHasMoreData(!!pokemonDataSSR.data.next);
       isInitialLoadCompleteRef.current = true;
       return;
     }
@@ -41,23 +41,26 @@ export const useCombinedPokemonData = ({
           return pokemonDataQuery;
         }
 
-        if (!prevData || prevData.results.length === 0) return pokemonDataQuery;
+        if (!prevData || prevData.data.items.length === 0) return pokemonDataQuery;
 
         // Filter out duplicates (assuming 'name' is unique identifier)
-        const newResults = pokemonDataQuery.results.filter(
+        const newResults = pokemonDataQuery.data.items.filter(
           (newPokemon) =>
-            !prevData.results.some((oldPokemon) => oldPokemon.name === newPokemon.name)
+            !prevData.data.items.some((oldPokemon) => oldPokemon.name === newPokemon.name)
         );
 
         return {
           ...prevData,
-          results: [...prevData.results, ...newResults],
-          count: pokemonDataQuery.count // Always take the latest total count from API
+          data: {
+            ...prevData.data,
+            items: [...prevData.data.items, ...newResults],
+            count: pokemonDataQuery.data.count // Always take the latest total count from API
+          },
         };
       });
 
       // Update hasMoreData based on the latest query result
-      setHasMoreData(!!pokemonDataQuery.next);
+      setHasMoreData(!!pokemonDataQuery.data.next);
     }
   }, [pokemonDataQuery, pokemonDataSSR, isFetching, isQueryEnabled]);
 

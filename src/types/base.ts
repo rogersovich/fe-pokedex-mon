@@ -1,8 +1,8 @@
 export interface BaseResponse<T> {
-  results : T;
-  count: number;
-  next?: string;
-  previous?: string;
+  data : T;
+  error: string | null;
+  message: string;
+  status: string;
 }
 
 export interface TRequestOptions extends RequestInit {

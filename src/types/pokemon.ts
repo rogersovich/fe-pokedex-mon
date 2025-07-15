@@ -1,3 +1,16 @@
+export interface BasePokemonList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  items: PokemonList[]; 
+}
+
+export interface BasePokemonDetail {
+  next: string | null;
+  previous: string | null;
+  item: TPokemonDetailResponse;
+}
+
 export interface PokemonList {
   id: number;
   name: string;
@@ -162,6 +175,12 @@ export interface TPokemonWeakness {
 }
 
 export interface TBasePokemonWeakness {
+  item: TPokemonWeakness;
+  next: string | null;
+  previous: string | null;
+}
+
+export interface TPokemonWeakness {
   id: number;
   pokemon_name: string;
   weakness: TPokemonWeakness[];

@@ -18,7 +18,7 @@ export async function getPokemonTypeList(): Promise<BaseResponse<TBaseType[]>> {
 export async function getPokemonWeaknessType(
   pokemon_id: number,
   options: GetPokemonWeaknessTypeOptions
-): Promise<TBasePokemonWeakness> {
+): Promise<BaseResponse<TBasePokemonWeakness>> {
   // Pass offset and limit as query parameters
   const params: Record<string, string | number> = {};
 
@@ -30,7 +30,7 @@ export async function getPokemonWeaknessType(
     }
   }
 
-  return apiFetch<TBasePokemonWeakness>(`/type/weakness/${pokemon_id}`, {
+  return apiFetch<BaseResponse<TBasePokemonWeakness>>(`/type/weakness/${pokemon_id}`, {
     params: params,
   });
 }

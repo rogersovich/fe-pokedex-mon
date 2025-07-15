@@ -33,3 +33,15 @@ body {
 .grid-cols-13 {
   grid-template-columns: repeat(13, minmax(0, 1fr));
 }
+
+.btn-icon {
+  @apply px-4 py-2 bg-red-50 hover:outline-2 hover:outline-red-200 rounded font-bold flex items-center gap-2 cursor-pointer;
+}
+
+.btn-icon--small {
+  @apply !text-sm;
+}
+
+.btn-navigation {
+  @apply flex items-center gap-2 cursor-pointer hover:underline hover:decoration-blue-400;
+}

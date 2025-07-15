@@ -1,7 +1,7 @@
 import { getPokemonList } from "@/lib/api/pokemon";
 
 import type { BaseResponse } from "@/types/base";
-import type { PokemonList } from "@/types/pokemon";
+import type { BasePokemonList, PokemonList } from "@/types/pokemon";
 import { default as PokemonClientPageWrapper } from "@/app/pokemon/components/ClientPageWrapper";
 
 // Define a default limit for your API calls
@@ -9,7 +9,7 @@ const LIMIT = 15;
 const OFFSET = 0;
 
 export default async function PokemonPage() {
-  let pokemonResponse: BaseResponse<PokemonList[]> | null = null;
+  let pokemonResponse: BaseResponse<BasePokemonList> | null = null;
   let pokemonError: string | null = null;
 
   try {

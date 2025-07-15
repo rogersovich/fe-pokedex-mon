@@ -1,5 +1,5 @@
 import type { BaseResponse } from "@/types/base";
-import type { PokemonList, TPokemonDetailResponse } from "@/types/pokemon";
+import type { BasePokemonDetail, BasePokemonList } from "@/types/pokemon";
 
 import { apiFetch } from "./base";
 
@@ -12,7 +12,7 @@ export interface GetPokemonListOptions {
 
 export async function getPokemonList(
   options?: GetPokemonListOptions
-): Promise<BaseResponse<PokemonList[]>> {
+): Promise<BaseResponse<BasePokemonList>> {
   // Pass offset and limit as query parameters
   const params: Record<string, string | number> = {};
   if (options?.offset !== undefined) {
@@ -28,12 +28,12 @@ export async function getPokemonList(
     params.q = options.q;
   }
 
-  return apiFetch<BaseResponse<PokemonList[]>>("/pokemon", {
+  return apiFetch<BaseResponse<BasePokemonList>>("/pokemon", {
     params,
   });
 }
 
 
 export async function getPokemon(name: string) {
-  return apiFetch<TPokemonDetailResponse>(`/pokemon/${name}`);
+  return apiFetch<BaseResponse<BasePokemonDetail>>(`/pokemon/${name}`);
 }

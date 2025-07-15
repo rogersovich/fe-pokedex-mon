@@ -20,6 +20,7 @@ export default function PokemonDamageRelation({
     isLoading,
     isError,
     error,
+    isFetched,
   } = usePokemonWeaknessTypeData({
     pokemon_types: pokemon_types,
     pokemon_id: pokemon_id,
@@ -32,11 +33,11 @@ export default function PokemonDamageRelation({
         <div>Loading...</div>
       ) : isError ? (
         <div>Error: {error?.message}</div>
-      ) : pokemonWeakness ? (
+      ) : isFetched ? (
         <div className="my-4">
           <div className="text-3xl font-extrabold mb-4">Type defenses</div>
           <div className="flex flex-wrap items-center gap-2">
-            {pokemonWeakness.weakness.map((dmg, i_dmg) => (
+            {pokemonWeakness?.data.item.weakness.map((dmg, i_dmg) => (
               <div
                 key={i_dmg}
                 className="flex flex-col justify-center items-center gap-2"
