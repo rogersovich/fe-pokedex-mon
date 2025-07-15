@@ -15,7 +15,7 @@ interface PokemonTypeOption {
   value: string;
 }
 
-const fetchPokemonTypes = async (): Promise<BaseResponse<TBaseType[]>> => {
+const fetchPokemonTypes = async (): Promise<BaseResponse<TBaseType>> => {
   const data = await getPokemonTypeList();
 
   return data;
@@ -34,14 +34,13 @@ export default function SelectTypePokemon() {
     data: resPokemonTypes,
     isLoading,
     isError,
-  } = useQuery<BaseResponse<TBaseType[]> | null, Error>({
+  } = useQuery<BaseResponse<TBaseType> | null, Error>({
     queryKey: ["pokemonTypes"],
     queryFn: () => fetchPokemonTypes(),
     enabled: true,
   });
-
-
-  const pokemonTypes = resPokemonTypes?.results.map((type) => ({
+  
+  const pokemonTypes = resPokemonTypes?.data?.items.map((type) => ({
     label: type.name,
     value: type.name,
   }));

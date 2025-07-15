@@ -7,12 +7,14 @@ export interface GetPokemonWeaknessTypeOptions {
   types?: any[];
 }
 
-export async function getPokemonTypeList(): Promise<BaseResponse<TBaseType[]>> {
-  return apiFetchPokeApi<BaseResponse<TBaseType[]>>("/type", {
+export async function getPokemonTypeList(): Promise<BaseResponse<TBaseType>> {
+  const data = await apiFetch<BaseResponse<TBaseType>>("/type", {
     params: {
       limit: 20,
     },
   });
+
+  return data 
 }
 
 export async function getPokemonWeaknessType(
