@@ -6,8 +6,8 @@ export interface BasePokemonList {
 }
 
 export interface BasePokemonDetail {
-  next: string | null;
-  previous: string | null;
+  next: TPokemonNavigation | null;
+  prev: TPokemonNavigation | null;
   item: TPokemonDetailResponse;
 }
 
@@ -27,6 +27,17 @@ export interface PokemonType {
   };
 }
 
+export interface TPokemonNavigation {
+  id: number;
+  name: string;
+  url: string;
+}
+
+export interface TOtherNames {
+  language: string;
+  name: string;
+}
+
 export interface TPokemonDetailResponse {
   id: number;
   name: string;
@@ -44,10 +55,7 @@ export interface TPokemonDetailResponse {
   thumbnail: string;
   training: TTraining;
   breeding: TBreeding;
-  other_names: {
-    language: string;
-    name: string;
-  }[];
+  other_names: TOtherNames[];
   color: TBaseResource;
   generation: TBaseResource;
   is_baby: boolean;

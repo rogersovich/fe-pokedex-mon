@@ -3,6 +3,7 @@ import CustomImage from "@/components/CustomImage";
 import type { TEvolutionChain } from "@/types/pokemon";
 import ChipType from "@/components/ChipType";
 import { formatPokemonName } from "@/lib/string-formatter";
+import Link from "next/link";
 
 interface EvolutionCardProps {
   pokemonNode: TEvolutionChain;
@@ -14,9 +15,7 @@ const getIdFromUrl = (url: string | undefined): string => {
   return parts[parts.length - 2] || "";
 };
 
-const EvolutionCard: React.FC<EvolutionCardProps> = ({
-  pokemonNode,
-}) => {
+const EvolutionCard: React.FC<EvolutionCardProps> = ({ pokemonNode }) => {
   // Destructure for cleaner access
   const {
     evolution_type,
@@ -44,7 +43,7 @@ const EvolutionCard: React.FC<EvolutionCardProps> = ({
   );
 
   const getEvoByMove = evoDetails.filter(
-    (detail: any) => detail.known_move !== null && detail.known_move.name !== ''
+    (detail: any) => detail.known_move !== null && detail.known_move.name !== ""
   );
 
   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
@@ -53,16 +52,20 @@ const EvolutionCard: React.FC<EvolutionCardProps> = ({
     <>
       <div className="flex flex-col items-center p-2 min-w-[150px]">
         {/* Replace CustomImage with your actual image component or <img> tag */}
-        <CustomImage
-          src={imageUrl}
-          alt={name || "Pokemon"}
-          width={100}
-          height={100}
-        />
-        <div className="text-sm text-gray-600 mb-1">
+        <Link href={`/pokemon/${pokemonName}`}>
+          <CustomImage
+            src={imageUrl}
+            alt={name || "Pokemon"}
+            width={100}
+            height={100}
+          />
+        </Link>
+        <div className="text-sm text-gray-600 mb-1 mt-2">
           #{String(id).padStart(4, "0")}
         </div>
-        <div className="font-bold text-lg capitalize mb-2">{name}</div>
+        <div className="font-bold text-lg capitalize mb-2 text-blue-500 hover:underline">
+          <Link href={`/pokemon/${pokemonName}`}>{name}</Link>
+        </div>
         {types && (
           <div className="flex justify-center gap-1 flex-wrap">
             {types.map((typeInfo, index) => (
@@ -81,16 +84,22 @@ const EvolutionCard: React.FC<EvolutionCardProps> = ({
           getEvoByMinHappiness[0].min_happiness > 100 &&
           pokemonName !== "sylveon" && (
             <>
-              <div className="mt-3 text-xs flex items-center gap-1">
-                <span> {"("}high</span>
-                <span>Friendship,</span>
+              <div className="items-baseline flex text-xs mt-3">
+                {"("}
+                <span className="flex items-center gap-1">
+                  <span>high</span>
+                  <span>Friendship</span>
+                </span>
+                {getEvoByMinHappiness[0].time_of_day !== "" && (
+                  <>
+                    <span className="mr-0.5">,</span>
+                    <span className="text-xs capitalize">
+                      {getEvoByMinHappiness[0].time_of_day}
+                    </span>
+                  </>
+                )}
+                {")"}
               </div>
-              {getEvoByMinHappiness[0].time_of_day !== "" && (
-                <div className="text-xs capitalize">
-                  {getEvoByMinHappiness[0].time_of_day}
-                  {")"}
-                </div>
-              )}
             </>
           )}
         {pokemonName === "sylveon" && (

@@ -45,3 +45,8 @@ body {
 .btn-navigation {
   @apply flex items-center gap-2 cursor-pointer hover:underline hover:decoration-blue-400;
 }
+
+.react-tabs__tab--selected {
+  font-weight: bold;
+  background-color: #e2e8f0 !important;
+}

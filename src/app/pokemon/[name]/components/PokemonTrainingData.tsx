@@ -1,11 +1,11 @@
-import type { TPokemonDetailResponse } from "@/types/pokemon";
+import type { TTraining } from "@/types/pokemon";
 import React from "react";
 
 interface MyProps {
-  pokemon: TPokemonDetailResponse;
+  training: TTraining;
 }
 
-export default function PokemonTrainingData({ pokemon }: MyProps) {
+export default function PokemonTrainingData({ training }: MyProps) {
   return (
     <>
       <div className="text-3xl font-extrabold mb-4">Training</div>
@@ -13,20 +13,20 @@ export default function PokemonTrainingData({ pokemon }: MyProps) {
         <div className="col-span-6">Catch Rate</div>
         <div className="col-span-6">
           <div className="flex flex-col items-start gap-1 text-sm">
-            <span>{pokemon.training.capture_rate_percent}%</span>
+            <span>{training.capture_rate_percent}%</span>
           </div>
         </div>
         <div className="col-span-6">Base Friendship</div>
         <div className="col-span-6">
-          <span className="text-sm">{pokemon.training.base_happiness}</span>
+          <span className="text-sm">{training.base_happiness}</span>
         </div>
         <div className="col-span-6">Base Exp</div>
         <div className="col-span-6">
-          <span className="text-sm">{pokemon.training.base_experience}</span>
+          <span className="text-sm">{training.base_experience}</span>
         </div>
         <div className="col-span-6">Growth Rate</div>
         <div className="col-span-6">
-          <span className="text-sm">{pokemon.training.growth_rate}</span>
+          <span className="text-sm">{training.growth_rate}</span>
         </div>
       </div>
     </>

@@ -1,14 +1,14 @@
 import { formatNumberWithThousandsSeparator } from "@/lib/number-formatter";
-import type { TPokemonDetailResponse } from "@/types/pokemon";
+import type { TBreeding } from "@/types/pokemon";
 import React from "react";
 
 interface MyProps {
-  pokemon: TPokemonDetailResponse;
+  breeding: TBreeding;
 }
 
-export default function PokemonBreedingData({ pokemon }: MyProps) {
+export default function PokemonBreedingData({ breeding }: MyProps) {
   const eggCyles = formatNumberWithThousandsSeparator(
-    pokemon.breeding.egg_cycles
+    breeding.egg_cycles
   );
 
   return (
@@ -18,13 +18,13 @@ export default function PokemonBreedingData({ pokemon }: MyProps) {
         <div className="col-span-4">Egg Group</div>
         <div className="col-span-8">
           <div className="flex items-center gap-1 text-sm">
-            {pokemon.breeding.egg_groups.map((egg_group, i_egg_group) => (
+            {breeding.egg_groups.map((egg_group, i_egg_group) => (
               <span
                 key={i_egg_group}
                 className="capitalize text-blue-500 cursor-pointer hover:underline"
               >
                 {egg_group.name}
-                {i_egg_group !== pokemon.breeding.egg_groups.length - 1 && ","}
+                {i_egg_group !== breeding.egg_groups.length - 1 && ","}
               </span>
             ))}
           </div>
@@ -33,10 +33,10 @@ export default function PokemonBreedingData({ pokemon }: MyProps) {
         <div className="col-span-8">
           <div className="text-sm flex items-center gap-1">
             <span className="text-blue-500">
-              {pokemon.breeding.gender_rate.female},
+              {breeding.gender_rate.female},
             </span>
             <span className="text-pink-500">
-              {pokemon.breeding.gender_rate.male}
+              {breeding.gender_rate.male}
             </span>
           </div>
         </div>
@@ -46,7 +46,7 @@ export default function PokemonBreedingData({ pokemon }: MyProps) {
         </div>
         <div className="col-span-4">Hatch Counter</div>
         <div className="col-span-8">
-          <span className="text-sm">{pokemon.breeding.hatch_counter}</span>
+          <span className="text-sm">{breeding.hatch_counter}</span>
         </div>
       </div>
     </>

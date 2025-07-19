@@ -1,0 +1,37 @@
+.tabList {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.tab {
+  outline: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: none !important;
+  color: #020617;
+  border: 1px solid #e2e8f0;
+  margin-right: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tab:hover {
+  background-color: #e2e8f0;
+  color: #020617;
+}
+
+.tabSelected {
+  background-color: #e2e8f0;
+  border-color: #e2e8f0;
+  color: #020617;
+  font-weight: bold;
+  border-bottom: none;
+}
+
+.tabPanel {
+  padding: 20px 0;
+}

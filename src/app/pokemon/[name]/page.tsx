@@ -1,16 +1,18 @@
 import { getPokemon } from "@/lib/api";
 import React from "react";
+import type {
+  BasePokemonDetail,
+} from "@/types/pokemon";
 import PokemonGeneralData from "./components/PokemonGeneralData";
 import CustomImage from "@/components/CustomImage";
 import PokemonTrainingData from "./components/PokemonTrainingData";
 import PokemonBreedingData from "./components/PokemonBreedingData";
 import PokemonBaseStat from "./components/PokemonBaseStat";
-import type { BasePokemonDetail, TPokemonDetailResponse } from "@/types/pokemon";
 import PokemonChainEvolution from "./components/PokemonChainEvolution";
 import PokemonOtherNames from "./components/PokemonOtherNames";
 import PokemonDamageRelation from "./components/PokemonDamageRelation";
 import PokemonNavigation from "./components/PokemonNavigation";
-import type { BaseResponse } from "@/types/base";
+import PokemonMoves from "./components/PokemonMoves/PokemonMoves";
 
 interface PokemonPageProps {
   params: Promise<{
@@ -20,7 +22,7 @@ interface PokemonPageProps {
 
 export default async function PokemonNamePage({ params }: PokemonPageProps) {
   const awaitedParams = await params;
-  let pokemonResponse: BasePokemonDetail| null = null;
+  let pokemonResponse: BasePokemonDetail | null = null;
   let pokemonError: string | null = null;
 
   try {
@@ -73,13 +75,13 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                 <PokemonGeneralData pokemon={pokemonResponse.item} />
               </div>
               <div className="col-span-5">
-                <PokemonTrainingData pokemon={pokemonResponse.item} />
+                <PokemonTrainingData training={pokemonResponse.item.training} />
               </div>
               <div className="col-start-7 col-span-5">
-                <PokemonBreedingData pokemon={pokemonResponse.item} />
+                <PokemonBreedingData breeding={pokemonResponse.item.breeding} />
               </div>
               <div className="col-span-12">
-                <PokemonBaseStat pokemon={pokemonResponse.item} />
+                <PokemonBaseStat pokeStats={pokemonResponse.item.stats} />
               </div>
               <div className="col-span-12">
                 <PokemonChainEvolution
@@ -93,11 +95,19 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                 />
               </div>
               <div className="col-span-12">
-                <PokemonOtherNames pokemon={pokemonResponse.item} />
+                <PokemonMoves pokeMoves={pokemonResponse.item.grouped_moves} pokemonName={pokemonResponse.item.name}/>
+              </div>
+              <div className="col-span-12">
+                <PokemonOtherNames
+                  pokeOtherNames={pokemonResponse.item.other_names}
+                />
               </div>
             </div>
           </div>
-          <PokemonNavigation/>
+          <PokemonNavigation
+            prev={pokemonResponse.prev}
+            next={pokemonResponse.next}
+          />
         </>
       )}
     </>

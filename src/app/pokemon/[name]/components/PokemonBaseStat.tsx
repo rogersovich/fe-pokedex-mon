@@ -1,9 +1,9 @@
-import type { TPokemonDetailResponse, TStat } from "@/types/pokemon";
+import type { TStat } from "@/types/pokemon";
 import clsx from "clsx";
 import React from "react";
 
 interface MyProps {
-  pokemon: TPokemonDetailResponse;
+  pokeStats: TStat[];
 }
 
 function calculatePercentage(
@@ -44,7 +44,7 @@ function getPercentageBgColor(percentage: number): string {
   }
 }
 
-export default function PokemonBaseStat({ pokemon }: MyProps) {
+export default function PokemonBaseStat({ pokeStats }: MyProps) {
   const formatStatName = (stat_name: string) => {
     let formatName = "";
     switch (stat_name) {
@@ -89,7 +89,7 @@ export default function PokemonBaseStat({ pokemon }: MyProps) {
     <>
       <div className="text-3xl font-extrabold mb-4">Base Stat</div>
       <div className="flex flex-col items-center justify-start gap-y-3">
-        {pokemon.stats.map((stat, i_stat) => {
+        {pokeStats.map((stat, i_stat) => {
           const percentage = calculatePercentage(
             stat.stat_name,
             stat.base_stat,
@@ -126,7 +126,7 @@ export default function PokemonBaseStat({ pokemon }: MyProps) {
         <div className="flex items-center w-full gap-x-2">
           <div className="text-sm basis-[10%] text-slate-500">Total</div>
           <div className="text-sm basis-[10%] text-center font-bold">
-            {calcBaseStat(pokemon.stats)}
+            {calcBaseStat(pokeStats)}
           </div>
           <div className={clsx("text-sm w-full basis-[60%]")}></div>
           <div className="text-sm basis-[10%] text-center text-slate-400 font-medium">
