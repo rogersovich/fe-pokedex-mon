@@ -10,6 +10,7 @@ import "simple-table-core/styles.css";
 
 interface Props {
   items: ItemList[];
+  onTriggerLoadMore: () => void;
 }
 
 const generateImageItem = (name: string) => {
@@ -79,19 +80,17 @@ const headers: HeaderObject[] = [
   },
 ];
 
-const handleLoadMore = () => {
-  console.log("load more");
-};
-
-export default function ItemTable({ items }: Props) {
+export default function ItemTable({ items, onTriggerLoadMore }: Props) {
   return (
     <SimpleTable
       defaultHeaders={headers}
-      height={"100vh"}
+      height={"500px"}
       rowIdAccessor="id"
       rows={items as unknown as Row[]}
       rowHeight={32}
-      onLoadMore={() => handleLoadMore()}
+      onLoadMore={() => {
+        onTriggerLoadMore();
+      }}
     />
   );
 }
