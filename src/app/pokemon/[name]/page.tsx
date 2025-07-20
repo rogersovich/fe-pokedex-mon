@@ -1,8 +1,6 @@
 import { getPokemon } from "@/lib/api";
 import React from "react";
-import type {
-  BasePokemonDetail,
-} from "@/types/pokemon";
+import type { BasePokemonDetail } from "@/types/pokemon";
 import PokemonGeneralData from "./components/PokemonGeneralData";
 import CustomImage from "@/components/CustomImage";
 import PokemonTrainingData from "./components/PokemonTrainingData";
@@ -13,12 +11,60 @@ import PokemonOtherNames from "./components/PokemonOtherNames";
 import PokemonDamageRelation from "./components/PokemonDamageRelation";
 import PokemonNavigation from "./components/PokemonNavigation";
 import PokemonMoves from "./components/PokemonMoves/PokemonMoves";
+import clsx from "clsx";
+import { pokemonTextColor } from "@/lib/pokemon-color";
+import type { Metadata, ResolvingMetadata } from "next";
+import { formatPokemonName } from "@/lib/string-formatter";
 
 interface PokemonPageProps {
   params: Promise<{
     name: string;
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
+
+export async function generateMetadata(
+  { params }: PokemonPageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = (await params).name
+ 
+  // fetch post information
+  const [pokemonData] = await Promise.all([getPokemon(slug)]);
+
+  const pokemonName = formatPokemonName(pokemonData.data.item.name)
+  const title = `${pokemonName} Pokedex`
+ 
+  return {
+    title: title,
+    description: "whatever",
+  }
+}
+
+const formatGeneration = (gen: string) => {
+  switch (gen) {
+    case "generation-i":
+      return "1";
+    case "generation-ii":
+      return "2";
+    case "generation-iii":
+      return "3";
+    case "generation-iv":
+      return "4";
+    case "generation-v":
+      return "5";
+    case "generation-vi":
+      return "6";
+    case "generation-vii":
+      return "7";
+    case "generation-viii":
+      return "8";
+    case "generation-ix":
+      return "9";
+    default:
+      return gen;
+  }
+};
 
 export default async function PokemonNamePage({ params }: PokemonPageProps) {
   const awaitedParams = await params;
@@ -49,7 +95,13 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                   <div>is a</div>
                   <div className="flex items-center">
                     {pokemonResponse.item.types.map((type, i_type) => (
-                      <div key={i_type} className="font-bold capitalize">
+                      <div
+                        key={i_type}
+                        className={clsx(
+                          "font-bold capitalize",
+                          pokemonTextColor(type.type.name)
+                        )}
+                      >
                         {type.type.name}
                         {pokemonResponse.item.types.length - 1 !== i_type && (
                           <span>/</span>
@@ -57,7 +109,11 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                       </div>
                     ))}
                   </div>
-                  <div>type Pokémon introduced in Generation 1.</div>
+                  <div>
+                    {`type Pokémon introduced in generation ${formatGeneration(
+                      pokemonResponse.item.generation.name
+                    )}`}
+                  </div>
                 </div>
               </div>
               <div className="col-span-6">
@@ -94,9 +150,14 @@ export default async function PokemonNamePage({ params }: PokemonPageProps) {
                   pokemon_types={pokemonResponse.item.types}
                 />
               </div>
-              <div className="col-span-12">
-                <PokemonMoves pokeMoves={pokemonResponse.item.grouped_moves} pokemonName={pokemonResponse.item.name}/>
-              </div>
+              {pokemonResponse.item.grouped_moves && (
+                <div className="col-span-12">
+                  <PokemonMoves
+                    pokeMoves={pokemonResponse.item.grouped_moves}
+                    pokemonName={pokemonResponse.item.name}
+                  />
+                </div>
+              )}
               <div className="col-span-12">
                 <PokemonOtherNames
                   pokeOtherNames={pokemonResponse.item.other_names}

@@ -19,3 +19,10 @@ export function formatPokemonName(name: string): string {
 
   return capitalized;
 }
+
+export const toCapitalize = (str: string) => {
+  return str
+    .split(' ')
+    .map(word => word.length > 0 ? word[0].toUpperCase() + word.slice(1) : '')
+    .join(' ');
+}

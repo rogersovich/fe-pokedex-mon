@@ -3,10 +3,17 @@ import { getPokemonList } from "@/lib/api/pokemon";
 import type { BaseResponse } from "@/types/base";
 import type { BasePokemonList, PokemonList } from "@/types/pokemon";
 import { default as PokemonClientPageWrapper } from "@/app/pokemon/components/ClientPageWrapper";
+import type { Metadata } from "next";
 
 // Define a default limit for your API calls
 const LIMIT = 15;
 const OFFSET = 0;
+
+export const metadata: Metadata = {
+  title: 'Pokemon Pokedex',
+  description: '...',
+}
+ 
 
 export default async function PokemonPage() {
   let pokemonResponse: BaseResponse<BasePokemonList> | null = null;

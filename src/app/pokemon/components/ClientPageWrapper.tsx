@@ -130,13 +130,11 @@ export default function ClientPageWrapper({
 
   return (
     <>
-      <div className="base-card">
+      <div className="base-card flex items-center justify-between gap-8">
         <InputSearchPokemon
           q={searchQuery}
           onTriggerRefetch={handleTriggerSearch}
         />
-      </div>
-      <div className="base-card flex items-center justify-between gap-4">
         <SelectTypePokemon />
       </div>
       <div className="grid grid-cols-12 gap-4">

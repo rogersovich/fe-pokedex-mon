@@ -32,13 +32,13 @@ export default function TheHeader() {
       <Link href="/about">
         <div className="px-4 py-2 hover:outline-2 hover:outline-red-200 bg-red-50 rounded font-bold flex items-center gap-2">
           <Image
-            src="/icons/pecha-berry.png"
+            src="/icons/max-lure.png"
             alt="pecha_berry"
             width={25}
             height={25}
             quality={100}
           />
-          <span>Berries</span>
+          <span>Items</span>
         </div>
       </Link>
     </div>

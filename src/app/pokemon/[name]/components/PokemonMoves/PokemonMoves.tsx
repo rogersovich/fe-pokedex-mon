@@ -17,12 +17,13 @@ const getDescMoveType = (
   method_name: string,
   pokemon_name: string
 ) => {
+  const methodName = formatPokemonName(method_name);
   if (type == "level-up") {
-    return `${pokemon_name} learns the following moves in Pokémon ${method_name} at the levels specified.`;
+    return `${pokemon_name} learns the following moves in Pokémon ${methodName} at the levels specified.`;
   } else if (type == "egg") {
-    return `${pokemon_name} learns the following moves via breeding or picnics in Pokémon ${method_name}.`;
+    return `${pokemon_name} learns the following moves via breeding or picnics in Pokémon ${methodName}.`;
   } else if (type == "machine") {
-    return `${pokemon_name} is compatible with these Technical Machines in Pokémon ${method_name}.`;
+    return `${pokemon_name} is compatible with these Technical Machines in Pokémon ${methodName}.`;
   }
 };
 

@@ -46,7 +46,7 @@ export default function CustomImage({ src, width, height, ...props }: Props) {
         <Image
           priority
           alt="thumbnail"
-          src={error ? fallbackImage : src}
+          src={error ? fallbackImage : (src == "" ? fallbackImage : src)}
           placeholder={`data:image/svg+xml;base64,${toBase64(
             shimmer(width, height)
           )}`}
@@ -57,7 +57,7 @@ export default function CustomImage({ src, width, height, ...props }: Props) {
         <Image
           priority
           alt="thumbnail"
-          src={error ? fallbackImage : src}
+          src={error ? fallbackImage : (src == "" ? fallbackImage : src)}
           width={width}
           height={height}
           placeholder={`data:image/svg+xml;base64,${toBase64(

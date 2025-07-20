@@ -59,7 +59,7 @@ export default function InputSearchPokemon({
         <input
           placeholder="Search pokemon..."
           type="text"
-          className={clsx("w-full", "focus:outline-none", searchTerm && "pr-8")}
+          className={clsx("w-full", "outline outline-zinc-200 focus:outline-blue-400 py-2 px-3 rounded-md", searchTerm && "pr-8")}
           value={searchTerm}
           onChange={handleChange}
         />
