@@ -5,7 +5,7 @@ import {
   hectogramsToKilograms,
   hectogramsToPounds,
 } from "@/lib/pokemon-size";
-import { formatPokemonName } from "@/lib/string-formatter";
+import { formatName } from "@/lib/string-formatter";
 import type { TPokemonDetailResponse } from "@/types/pokemon";
 import React from "react";
 
@@ -53,7 +53,7 @@ export default function PokemonGeneralData({
           {pokemon.abilities.map((ability, i_ability) => (
             <div key={i_ability} className="flex items-center gap-1">
               <span>{i_ability + 1}.</span>
-              <span>{formatPokemonName(ability.ability.name)}</span>
+              <span>{formatName(ability.ability.name)}</span>
               {ability.is_hidden && (
                 <span className="text-sm italic">(hidden ability)</span>
               )}

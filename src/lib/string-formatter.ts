@@ -1,4 +1,4 @@
-export function formatPokemonName(name: string): string {
+export function formatName(name: string): string {
   if (!name) {
     return "";
   }

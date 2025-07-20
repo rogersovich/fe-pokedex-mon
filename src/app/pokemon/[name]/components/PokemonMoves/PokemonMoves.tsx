@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPokemonName } from "@/lib/string-formatter";
+import { formatName } from "@/lib/string-formatter";
 import type { TGroupedMove } from "@/types/pokemon";
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -17,7 +17,7 @@ const getDescMoveType = (
   method_name: string,
   pokemon_name: string
 ) => {
-  const methodName = formatPokemonName(method_name);
+  const methodName = formatName(method_name);
   if (type == "level-up") {
     return `${pokemon_name} learns the following moves in Pokémon ${methodName} at the levels specified.`;
   } else if (type == "egg") {
@@ -35,7 +35,7 @@ export default function PokemonMoves({ pokeMoves, pokemonName }: MyProps) {
         <TabList className={styles.tabList}>
           {pokeMoves.map((move, i_move) => (
             <Tab key={i_move} className={styles.tab}>
-              {formatPokemonName(move.group_name)}
+              {formatName(move.group_name)}
             </Tab>
           ))}
         </TabList>
@@ -45,14 +45,14 @@ export default function PokemonMoves({ pokeMoves, pokemonName }: MyProps) {
             <div className="grid grid-cols-2 gap-6">
               {move.moves_by_method.map((method, i_move_by_method) => (
                 <div key={i_move_by_method} className="col-span-1">
-                  <h2 className="text-xl font-bold mb-2">{`Move learnt by ${formatPokemonName(
+                  <h2 className="text-xl font-bold mb-2">{`Move learnt by ${formatName(
                     method.method_name
                   )}`}</h2>
                   <div className="text-sm text-slate-700">
                     {getDescMoveType(
                       method.method_name,
                       move.group_name,
-                      formatPokemonName(pokemonName)
+                      formatName(pokemonName)
                     )}
                   </div>
                   <div className="mt-4">
@@ -78,7 +78,7 @@ export default function PokemonMoves({ pokeMoves, pokemonName }: MyProps) {
                             )}
                             <td className="py-2 px-4">
                               <a className="text-blue-400 font-bold hover:underline">
-                                {formatPokemonName(move.move_name)}
+                                {formatName(move.move_name)}
                               </a>
                             </td>
                           </tr>

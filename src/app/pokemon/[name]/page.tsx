@@ -14,7 +14,7 @@ import PokemonMoves from "./components/PokemonMoves/PokemonMoves";
 import clsx from "clsx";
 import { pokemonTextColor } from "@/lib/pokemon-color";
 import type { Metadata, ResolvingMetadata } from "next";
-import { formatPokemonName } from "@/lib/string-formatter";
+import { formatName } from "@/lib/string-formatter";
 
 interface PokemonPageProps {
   params: Promise<{
@@ -32,7 +32,7 @@ export async function generateMetadata(
   // fetch post information
   const [pokemonData] = await Promise.all([getPokemon(slug)]);
 
-  const pokemonName = formatPokemonName(pokemonData.data.item.name)
+  const pokemonName = formatName(pokemonData.data.item.name)
   const title = `${pokemonName} Pokedex`
  
   return {

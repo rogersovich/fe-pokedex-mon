@@ -1,3 +1,5 @@
+import type { TBaseResource } from "./base";
+
 export interface BasePokemonList {
   count: number;
   next: string | null;
@@ -103,11 +105,6 @@ export interface TStat {
   stat_name: string;
   max_stat: number;
   min_stat: number;
-}
-
-export interface TBaseResource {
-  name: string;
-  url: string;
 }
 
 export interface TAbility {

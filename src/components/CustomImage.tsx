@@ -10,6 +10,7 @@ interface Props {
   width: number;
   height: number;
   fill?: boolean;
+  sizes?: string;
 }
 
 const fallbackImage = "/images/fallback.webp";

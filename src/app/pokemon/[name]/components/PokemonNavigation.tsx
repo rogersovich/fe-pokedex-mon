@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPokemonName } from "@/lib/string-formatter";
+import { formatName } from "@/lib/string-formatter";
 import type { TPokemonNavigation } from "@/types/pokemon";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import clsx from "clsx";
@@ -40,7 +40,7 @@ export default function PokemonNavigation({
             >
               <IconArrowLeft size={20} />
               <div className="text-blue-400">
-                {formatPokemonName(prev.name)}
+                {formatName(prev.name)}
               </div>
             </div>
           )}
@@ -60,7 +60,7 @@ export default function PokemonNavigation({
               onClick={() => goPrevOrNext(next)}
             >
               <div className="text-blue-400">
-                {formatPokemonName(next.name)}
+                {formatName(next.name)}
               </div>
               <IconArrowRight size={20} />
             </div>

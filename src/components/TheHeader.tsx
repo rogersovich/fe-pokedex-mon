@@ -29,7 +29,7 @@ export default function TheHeader() {
           <span>Pokedex</span>
         </div>
       </Link>
-      <Link href="/about">
+      <Link href="/item">
         <div className="px-4 py-2 hover:outline-2 hover:outline-red-200 bg-red-50 rounded font-bold flex items-center gap-2">
           <Image
             src="/icons/max-lure.png"

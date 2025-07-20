@@ -2,7 +2,7 @@ import React from "react";
 import CustomImage from "@/components/CustomImage";
 import type { TEvolutionChain } from "@/types/pokemon";
 import ChipType from "@/components/ChipType";
-import { formatPokemonName } from "@/lib/string-formatter";
+import { formatName } from "@/lib/string-formatter";
 import Link from "next/link";
 
 interface EvolutionCardProps {
@@ -76,7 +76,7 @@ const EvolutionCard: React.FC<EvolutionCardProps> = ({ pokemonNode }) => {
           </div>
         )}
         {getEvoItem.length > 0 && pokemonName !== "sylveon" && (
-          <div className="mt-3 text-xs">{`(use ${formatPokemonName(
+          <div className="mt-3 text-xs">{`(use ${formatName(
             getEvoItem[0].item.name
           )})`}</div>
         )}
@@ -110,7 +110,7 @@ const EvolutionCard: React.FC<EvolutionCardProps> = ({ pokemonNode }) => {
         )}
         {getEvoByMove.length > 0 && (
           <span className="mt-3 text-xs max-w-[8rem] text-center">
-            (after <b>{formatPokemonName(getEvoByMove[0].known_move.name)}</b>{" "}
+            (after <b>{formatName(getEvoByMove[0].known_move.name)}</b>{" "}
             learned)
           </span>
         )}

@@ -4,12 +4,12 @@ import React from "react";
 import ChipType from "@/components/ChipType";
 import CustomImage from "@/components/CustomImage";
 import { useRouter } from "next/navigation";
-import { formatPokemonName } from "@/lib/string-formatter";
+import { formatName } from "@/lib/string-formatter";
 import type { PokemonList } from "@/types/pokemon";
 
 export default function PokemonCard({ pokemon }: { pokemon: PokemonList }) {
   const router = useRouter();
-  const formattedName = formatPokemonName(pokemon.name);
+  const formattedName = formatName(pokemon.name);
   const onClickPokemon = (pokemon_name: string) => {
     router.push(`/pokemon/${pokemon_name}`);
   };
